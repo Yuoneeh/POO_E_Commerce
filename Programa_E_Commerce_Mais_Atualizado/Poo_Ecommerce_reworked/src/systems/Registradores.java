@@ -74,15 +74,17 @@ public class Registradores extends Categoria {
 		System.out.println("Quantos produtos deseja adicionar: ");
 		pdd_num = sc.nextInt();
 		for (int i = 1; i < pdd_num; i++) {
-			System.out.println("Insira o codigo do pedido: ");
-			pdd_cod = sc.nextLine();
-			System.out.println("Qual produto deseja adicionar no pedido? (Nome do Produto): ");
+			System.out.println("Insira o Nome do produto: ");
 			new_Nome = sc.nextLine();
+			//Ler na tabela produtos o dado e puxar o preço e jhonsons e bereguenaite e talz :)
 			System.out.println("Insira a Quantidade do produto: ");
 			new_quant = sc.nextInt();
 			sc.nextLine();
+			System.out.println("Produto adicionado com sucesso. \n");
 
 
+			//Aqui é a parte do churrascamento cerebral extremo, Precisamos criar UM PEDIDO e adicionar VARIOS PRODUTOS DENTRO DE UM MESMO PEDIDO
+			//Arrumar um jeito de armazenar varios objetos produto dentro de um vetor/ lista pedido
 			Pedidos Ped = new Pedidos(pdd_cod, nome_comp, val_total);
 
 		}
