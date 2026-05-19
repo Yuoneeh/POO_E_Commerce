@@ -1,6 +1,7 @@
 package entities;
 
-public class Produto {
+public class Produto extends Categoria{
+
 
 	public String SKU;
 	public String Nome;

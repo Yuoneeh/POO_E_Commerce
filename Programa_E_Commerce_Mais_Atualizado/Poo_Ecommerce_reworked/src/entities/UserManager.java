@@ -1,0 +1,69 @@
+package entities;
+
+import java.util.*;
+import application.ProgramaECommerce;
+
+public class UserManager {
+    public static boolean acessoAutorizado;
+    private List<User> users = new ArrayList<>();
+    private Scanner scanner = new Scanner(System.in);
+    public void registrar() {
+        System.out.print("Insira Usuario: ");
+        String username = scanner.nextLine();
+        System.out.print("Insira Senha: ");
+        String password = scanner.nextLine();
+        System.out.print("Insira Email: ");
+        String email = scanner.nextLine();
+        System.out.print("Insira Pergunta Secreta ");
+        String question = scanner.nextLine();
+        System.out.print("Insira Resposta Secreta: ");
+        String answer = scanner.nextLine();
+        users.add(new User(username, password, email, question, answer));
+        System.out.println("Registro Completo.");
+    }
+    public void login() {
+        System.out.print("Enter username: ");
+        String username = scanner.nextLine();
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine();
+        for (User user : users) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                System.out.println("Login successful.");
+                ProgramaECommerce.menuPrincipal();
+            }
+        }
+        System.out.println("Login failed. Incorrect credentials.");
+    }
+    public void esqueciSenha() {
+        System.out.print("Enter your username: ");
+        String username = scanner.nextLine();
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                System.out.println("Responda a pergunta secreta: " + user.getSecretQuestion());
+                if (scanner.nextLine().equals(user.getSecretAnswer())) {
+                    System.out.print("Insira a nova senha ");
+                    user.setPassword(scanner.nextLine());
+                    System.out.println("Senha Resetada com sucesso");
+                } else {
+                    System.out.println("Resposta Incorreta.");
+                }
+                return;
+            }
+        }
+        System.out.println("Usuario não encontrado.");
+    }
+    public void start() {
+        while (true) {
+            System.out.println("\n1. Cadastrar\n2. Login\n3. Esqueci a Senha\n4. Sair");
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch (choice) {
+                case 1 -> registrar();
+                case 2 -> login();
+                case 3 -> esqueciSenha();
+                case 4 -> { return; }
+                default -> System.out.println("Escolha Invalida.");
+            }
+        }
+    }
+}
+
