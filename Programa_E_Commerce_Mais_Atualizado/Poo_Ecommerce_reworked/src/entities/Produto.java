@@ -2,16 +2,17 @@ package entities;
 
 public class Produto extends Categoria{
 
-
+	public Integer cat_prod;
 	public String SKU;
 	public String Nome;
 	public Integer quant;
 	public Double preco;
 		
 	
-	public Produto(String SKU, Integer quant, String Nome, Double preco) {
+	public Produto(Integer cat_prod, Integer quant, String Nome, Double preco) {
 		super();
-		this.SKU = SKU;
+		//this.SKU = SKU;
+		this.cat_prod = cat_prod;
 		this.Nome = Nome;
 		this.quant = quant;
 		this.preco = preco;

@@ -6,6 +6,8 @@ public class User {
     private String email;
     private String secretQuestion;
     private String secretAnswer;
+
+
     public User(String username, String password, String email, String secretQuestion, String secretAnswer) {
         this.username = username;
         this.password = password;
@@ -13,6 +15,8 @@ public class User {
         this.secretQuestion = secretQuestion;
         this.secretAnswer = secretAnswer;
     }
+
+
     public String getUsername() { return username; }
     public String getPassword() { return password; }
     public String getSecretQuestion() { return secretQuestion; }
