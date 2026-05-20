@@ -143,49 +143,77 @@ public class Registradores { // Removido o 'extends Categoria'
 
     // O FIM DO CHURRASCAMENTO CEREBRAL ESTÁ AQUI
     public void adicionar_pedido() {
+
         dao.PedidoDAO pedidoDao = new dao.PedidoDAO();
+        dao.ProdutoDAO produtoDao = new dao.ProdutoDAO();
 
         System.out.println("=== CRIANDO NOVO PEDIDO ===");
+
         System.out.println("Insira o ID do Pedido (Ex: PED001): ");
         String pdd_cod = sc.nextLine();
 
         System.out.println("Insira o CPF do cliente: ");
         String cli_cpf = sc.nextLine();
 
-        System.out.println("Insira o valor total do pedido: ");
-        Double pdd_valor = sc.nextDouble();
-        sc.nextLine();
-
         System.out.println("Insira o status do pedido (Ex: AGUARDANDO, ENVIADO, ENTREGUE): ");
         String pdd_status = sc.nextLine();
 
-        // Data capturada automaticamente
         java.time.LocalDate pdd_data = java.time.LocalDate.now();
-
-        Pedidos ped = new Pedidos(pdd_cod, pdd_data, pdd_valor, pdd_status, cli_cpf);
-        pedidoDao.inserirPedido(ped);
-
-        System.out.println("Pedido " + ped.getPdd_cod() + " registrado com sucesso no banco. Vamos adicionar os itens!\n");
 
         System.out.println("Quantos produtos diferentes este pedido terá?");
         int pdd_num = sc.nextInt();
-        sc.nextLine(); // Consome a quebra de linha após ler o número inteiro
+        sc.nextLine();
 
-        // O laço começa aqui para coletar cada item do pedido
+        double valorTotal = 0;
+
+        List<String> skus = new java.util.ArrayList<>();
+
         for (int i = 0; i < pdd_num; i++) {
-            System.out.println("Insira o SKU do produto que deseja incluir neste pedido: ");
+
+            System.out.println("Insira o SKU do produto:");
             String sku_comprado = sc.nextLine();
 
-            // ====================================================================
-            // GANHO DE LINHA 2: VINCULAR PRODUTO AO PEDIDO (Tabela Providenciar)
-            // Adicione a linha abaixo aqui, DENTRO do laço for.
-            // Esse método vai rodar repetidamente para cada SKU que for digitado,
-            // criando várias linhas na tabela 'providenciar' ligadas ao mesmo ID de pedido.
-            // ====================================================================
-            pedidoDao.inserirProvidenciar(ped.getPdd_cod(), sku_comprado);
+            Produto produto = produtoDao.buscarPorSku(sku_comprado);
 
-            System.out.println("Produto de SKU " + sku_comprado + " vinculado ao pedido " + ped.getPdd_cod() + " no banco!\n");
+            if (produto == null) {
+
+                System.out.println("Produto não encontrado!");
+                i--;
+                continue;
+            }
+
+            valorTotal += produto.getPreco();
+
+            skus.add(sku_comprado);
+
+            System.out.println(
+                    "Produto encontrado: "
+                            + produto.getNome()
+                            + " | Preço: R$"
+                            + String.format("%.2f", produto.getPreco())
+            );
         }
+
+        Pedidos ped = new Pedidos(
+                pdd_cod,
+                pdd_data,
+                valorTotal,
+                pdd_status,
+                cli_cpf
+        );
+
+        pedidoDao.inserirPedido(ped);
+
+        for (String sku : skus) {
+
+            pedidoDao.inserirProvidenciar(
+                    ped.getPdd_cod(),
+                    sku
+            );
+        }
+
+        System.out.println("\nPedido criado com sucesso!");
+        System.out.println("Valor total calculado: R$" + String.format("%.2f", valorTotal));
     }
 
     public void consultar_pedido() {

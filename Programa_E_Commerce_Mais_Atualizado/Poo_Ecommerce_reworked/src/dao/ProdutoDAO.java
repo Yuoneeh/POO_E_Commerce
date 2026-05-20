@@ -75,4 +75,41 @@ public class ProdutoDAO {
             }
         }
     }
+
+    public Produto buscarPorSku(String sku) {
+
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DB.getConnection();
+
+            st = conn.prepareStatement(
+                    "SELECT * FROM produto WHERE pdt_sku = ?"
+            );
+
+            st.setString(1, sku);
+
+            rs = st.executeQuery();
+
+            if (rs.next()) {
+
+                return new Produto(
+                        rs.getString("pdt_sku"),
+                        rs.getInt("pdt_quant"),
+                        rs.getString("pdt_nome"),
+                        rs.getString("pdt_desc"),
+                        rs.getString("pdt_status"),
+                        rs.getDouble("pdt_preco"),
+                        rs.getString("pdt_categoria")
+                );
+            }
+
+            return null;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
