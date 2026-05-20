@@ -19,19 +19,35 @@ public class Registradores { // Removido o 'extends Categoria'
     public String new_Descricao;
 
     public void adicionar_produto() {
+
+        // Instancia o DAO de categoria
+        dao.CategoriaDAO categoriaDAO = new dao.CategoriaDAO();
+
+        // Busca todas as categorias do banco
+        List<Categorias> categorias = categoriaDAO.listarCategorias();
+
+        // Verifica se existem categorias cadastradas
+        if (categorias.isEmpty()) {
+            System.out.println("\n====================================");
+            System.out.println("ERRO: Nenhuma categoria cadastrada!");
+            System.out.println("Cadastre uma categoria antes de adicionar produtos.");
+            System.out.println("====================================\n");
+
+            return; // Interrompe o método
+        }
+
         System.out.println("Insira a quantidade de produtos DIFERENTES que deseja cadastrar no banco: ");
         int pdd_num = sc.nextInt();
         sc.nextLine(); // Consumir quebra de linha
 
         for (int i = 0; i < pdd_num; i++) {
-            // VOLTOU: Perguntando o SKU primeiro
+
             System.out.println("Insira o SKU do produto (Ex: PROD001): ");
             new_SKU = sc.nextLine();
 
             System.out.println("Insira o Nome do produto: ");
             new_Nome = sc.nextLine();
 
-            // Perguntando a descrição
             System.out.println("Insira uma breve Descrição do produto: ");
             String new_desc = sc.nextLine();
 
@@ -40,19 +56,60 @@ public class Registradores { // Removido o 'extends Categoria'
 
             System.out.println("Insira o Preço do produto: ");
             new_preco = sc.nextDouble();
-            sc.nextLine(); // Consumir quebra de linha após nextDouble()
+            sc.nextLine();
 
-            System.out.println("Insira a Categoria do produto: ");
-            new_categoria = sc.nextLine();
-            // Consumir quebra de linha após nextDouble()
+            // Mostra categorias disponíveis
+            System.out.println("\n=== Categorias Disponíveis ===");
 
-            // Cria o objeto Produto com os dados corretos
-            Produto prod = new Produto(new_SKU, new_quant, new_Nome, new_desc, "DISPONIVEL", new_preco, new_categoria);
+            for (Categorias cat : categorias) {
+                System.out.println("- " + cat.getCat_nome());
+            }
 
-            dao.ProdutoDAO dao = new dao.ProdutoDAO();
-            dao.inserir(prod);
+            System.out.println("==============================");
 
-            System.out.println("Produto " + prod.getNome() + " SALVO no banco de dados com sucesso!\n");
+            // Loop até o usuário digitar uma categoria válida
+            boolean categoriaValida = false;
+
+            while (!categoriaValida) {
+
+                System.out.println("Escolha uma das categorias acima: ");
+                new_categoria = sc.nextLine();
+
+                // Verifica se a categoria existe
+                for (Categorias cat : categorias) {
+
+                    if (cat.getCat_nome().equalsIgnoreCase(new_categoria)) {
+                        categoriaValida = true;
+
+                        // Salva exatamente como está no banco
+                        new_categoria = cat.getCat_nome();
+
+                        break;
+                    }
+                }
+
+                if (!categoriaValida) {
+                    System.out.println("Categoria inválida! Escolha uma categoria existente.\n");
+                }
+            }
+
+            // Cria objeto Produto
+            Produto prod = new Produto(
+                    new_SKU,
+                    new_quant,
+                    new_Nome,
+                    new_desc,
+                    "DISPONIVEL",
+                    new_preco,
+                    new_categoria
+            );
+
+            // Insere no banco
+            dao.ProdutoDAO produtoDAO = new dao.ProdutoDAO();
+            produtoDAO.inserir(prod);
+
+            System.out.println("\nProduto " + prod.getNome() + " cadastrado com sucesso!");
+
         }
     }
 
@@ -76,7 +133,8 @@ public class Registradores { // Removido o 'extends Categoria'
                                 " | Nome: " + p.getNome() +
                                 " | Desc.: " + p.getDescricao() + // NOVO: Imprimindo a descrição
                                 " | Qtd: " + p.getQuant() +
-                                " | Preço: R$" + String.format("%.2f", p.getPreco())
+                                " | Preço: R$" + String.format("%.2f", p.getPreco()) +
+                                " | Categoria: " + String.format(p.getCategoria())
                 );
             }
         }
