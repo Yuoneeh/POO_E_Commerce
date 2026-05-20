@@ -29,7 +29,7 @@ public class UserManager {
         for (User user : users) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 System.out.println("Login successful.");
-                acessoAutorizado = true;
+                ProgramaECommerce.menuPrincipal();
             }
         }
         System.out.println("Login failed. Incorrect credentials.");

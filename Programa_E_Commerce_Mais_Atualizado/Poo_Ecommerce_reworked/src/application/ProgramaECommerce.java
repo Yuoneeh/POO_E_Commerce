@@ -11,9 +11,6 @@ public class ProgramaECommerce {
 		
 		Locale.setDefault(Locale.US);
 		new UserManager().start();
-		if (UserManager.acessoAutorizado){
-			menuPrincipal();
-		}
 		
 	}
 	public static void menuPrincipal(){

@@ -15,22 +15,21 @@ public class PedidoDAO {
     public void inserirPedido(Pedidos pedido) {
         Connection conn = null;
         PreparedStatement st = null;
-
         try {
             conn = DB.getConnection();
-            st = conn.prepareStatement("INSERT INTO pedido (pdd_id, pdd_nf) VALUES (?, ?)");
-
+            st = conn.prepareStatement(
+                    "INSERT INTO pedido (pdd_id, pdd_data, pdd_valor, pdd_status, cli_cpf) VALUES (?, ?, ?, ?, ?)"
+            );
             st.setString(1, pedido.getPdd_cod());
-            st.setString(2, pedido.getPdd_nf());
-
+            st.setDate(2, java.sql.Date.valueOf(pedido.getPdd_data()));
+            st.setDouble(3, pedido.getPdd_valor());
+            st.setString(4, pedido.getPdd_status());
+            st.setString(5, pedido.getCli_cpf());
             st.executeUpdate();
-
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao inserir o pedido: " + e.getMessage());
         } finally {
-            if (st != null) {
-                try { st.close(); } catch (SQLException e) { throw new RuntimeException(e.getMessage()); }
-            }
+            if (st != null) try { st.close(); } catch (SQLException e) { throw new RuntimeException(e.getMessage()); }
         }
     }
 
@@ -71,10 +70,12 @@ public class PedidoDAO {
             rs = st.executeQuery();
 
             while (rs.next()) {
-                // Cria um objeto Pedidos para cada linha que vier do banco
                 Pedidos ped = new Pedidos(
                         rs.getString("pdd_id"),
-                        rs.getString("pdd_nf")
+                        rs.getDate("pdd_data").toLocalDate(),
+                        rs.getDouble("pdd_valor"),
+                        rs.getString("pdd_status"),
+                        rs.getString("cli_cpf")
                 );
                 lista.add(ped);
             }

@@ -44,10 +44,10 @@ public class Registradores { // Removido o 'extends Categoria'
 
             System.out.println("Insira a Categoria do produto: ");
             new_categoria = sc.nextLine();
-            sc.nextLine(); // Consumir quebra de linha após nextDouble()
+            // Consumir quebra de linha após nextDouble()
 
             // Cria o objeto Produto com os dados corretos
-            Produto prod = new Produto(new_SKU, new_quant, new_Nome, new_Descricao, "DISPONIVEL", new_preco, new_categoria);
+            Produto prod = new Produto(new_SKU, new_quant, new_Nome, new_desc, "DISPONIVEL", new_preco, new_categoria);
 
             dao.ProdutoDAO dao = new dao.ProdutoDAO();
             dao.inserir(prod);
@@ -85,24 +85,26 @@ public class Registradores { // Removido o 'extends Categoria'
 
     // O FIM DO CHURRASCAMENTO CEREBRAL ESTÁ AQUI
     public void adicionar_pedido() {
-        // Primeiro, instanciamos o DAO que gerencia o banco para os pedidos
         dao.PedidoDAO pedidoDao = new dao.PedidoDAO();
 
         System.out.println("=== CRIANDO NOVO PEDIDO ===");
         System.out.println("Insira o ID do Pedido (Ex: PED001): ");
         String pdd_cod = sc.nextLine();
 
-        System.out.println("Insira a Nota Fiscal do Pedido: ");
-        String pdd_nf = sc.nextLine();
+        System.out.println("Insira o CPF do cliente: ");
+        String cli_cpf = sc.nextLine();
 
-        // Criamos o objeto Pedido na memória do Java com os dados lidos
-        Pedidos ped = new Pedidos(pdd_cod, pdd_nf);
+        System.out.println("Insira o valor total do pedido: ");
+        Double pdd_valor = sc.nextDouble();
+        sc.nextLine();
 
-        // ====================================================================
-        // GANHO DE LINHA 1: SALVAR O PEDIDO PAI
-        // Adicione a linha abaixo aqui. O pedido é salvo apenas UMA vez na tabela 'pedido'.
-        // Deve ser feito antes do 'for', garantindo que o ID exista no MySQL.
-        // ====================================================================
+        System.out.println("Insira o status do pedido (Ex: AGUARDANDO, ENVIADO, ENTREGUE): ");
+        String pdd_status = sc.nextLine();
+
+        // Data capturada automaticamente
+        java.time.LocalDate pdd_data = java.time.LocalDate.now();
+
+        Pedidos ped = new Pedidos(pdd_cod, pdd_data, pdd_valor, pdd_status, cli_cpf);
         pedidoDao.inserirPedido(ped);
 
         System.out.println("Pedido " + ped.getPdd_cod() + " registrado com sucesso no banco. Vamos adicionar os itens!\n");
@@ -138,7 +140,13 @@ public class Registradores { // Removido o 'extends Categoria'
             System.out.println("Nenhum pedido registrado no banco de dados.");
         } else {
             for (Pedidos ped : listaPedidos) {
-                System.out.println("ID do Pedido: " + ped.getPdd_cod() + " | Nota Fiscal: " + ped.getPdd_nf());
+                System.out.println(
+                        "ID: " + ped.getPdd_cod() +
+                                " | Data: " + ped.getPdd_data() +
+                                " | Valor: R$" + String.format("%.2f", ped.getPdd_valor()) +
+                                " | Status: " + ped.getPdd_status() +
+                                " | CPF Cliente: " + ped.getCli_cpf()
+                );
             }
         }
         System.out.println("===========================\n");

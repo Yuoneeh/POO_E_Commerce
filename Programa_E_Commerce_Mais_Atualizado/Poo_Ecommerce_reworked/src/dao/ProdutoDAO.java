@@ -18,18 +18,18 @@ public class ProdutoDAO {
 
         try {
             conn = DB.getConnection();
+            // DEPOIS
             st = conn.prepareStatement(
-                    "INSERT INTO produto (pdt_sku, pdt_quant, pdt_nome, pdt_desc, pdt_status, pdt_preco) " +
-                            "VALUES (?, ?, ?, ?, ?, ?)"
+                    "INSERT INTO produto (pdt_sku, pdt_quant, pdt_nome, pdt_desc, pdt_status, pdt_preco, pdt_categoria) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?)"
             );
-
-            // CORREÇÃO 1: Numeração sequencial correta (1 ao 6)
             st.setString(1, produto.getSku());
             st.setInt(2, produto.getQuant());
             st.setString(3, produto.getNome());
             st.setString(4, produto.getDescricao());
             st.setString(5, produto.getStatus());
             st.setDouble(6, produto.getPreco());
+            st.setString(7, produto.getCategoria());
 
             st.executeUpdate();
 
