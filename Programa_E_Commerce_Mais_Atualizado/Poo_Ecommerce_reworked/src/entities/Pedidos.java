@@ -1,58 +1,29 @@
 package entities;
 
 public class Pedidos {
-	
-	public String pdd_cod;
-	public String nome_comp;
-	public Double val_total;
-	
-	
-	public Pedidos(String pdd_cod, String nome_comp, Double val_total) {
+	private String pdd_cod; // No banco: pdd_id
+	private String pdd_nf; // No banco: pdd_nf
+
+	public Pedidos(String pdd_cod, String pdd_nf) {
 		this.pdd_cod = pdd_cod;
-		this.nome_comp = nome_comp;
-		this.val_total = val_total;
-		
-		
+		this.pdd_nf = pdd_nf;
 	}
-	
-	
+
+	// Getters e Setters...
+
 	public String getPdd_cod() {
 		return pdd_cod;
 	}
-
-
 
 	public void setPdd_cod(String pdd_cod) {
 		this.pdd_cod = pdd_cod;
 	}
 
-
-
-	public String getNome_comp() {
-		return nome_comp;
+	public String getPdd_nf() {
+		return pdd_nf;
 	}
 
-
-
-	public void setNome_comp(String nome_comp) {
-		this.nome_comp = nome_comp;
+	public void setPdd_nf(String pdd_nf) {
+		this.pdd_nf = pdd_nf;
 	}
-
-
-
-	public Double getVal_total() {
-		return val_total;
-	}
-
-
-
-	public void setVal_total(Double val_total) {
-		this.val_total = val_total;
-	}
-
-
-
-
-	
 }
-

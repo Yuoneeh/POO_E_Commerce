@@ -4,7 +4,6 @@ import java.util.Scanner;
 import java.util.Locale;
 import entities.UserManager;
 import systems.Registradores;
-import entities.Produto;
 
 public class ProgramaECommerce {
 	
@@ -21,7 +20,6 @@ public class ProgramaECommerce {
 		Scanner sc = new Scanner(System.in);
 
 
-
 		int choice = -1;
 
 		Registradores Reg =  new Registradores();
@@ -30,8 +28,9 @@ public class ProgramaECommerce {
 		System.out.println(" \n=== Menu ===");
 		System.out.println("1. Produtos");
 		System.out.println("2. Pedidos");
-		System.out.println("3. Placeholder");
-		System.out.println("4. Sair");
+		System.out.println("3. Clientes");
+		System.out.println("4. Categorias");
+		System.out.println("5. Sair");
 
 		System.out.print("INSIRA A OPCAO DESEJADA: ");
 
@@ -91,14 +90,89 @@ public class ProgramaECommerce {
 				}
 				break;
 			case 3:
-				System.out.println("PlaceHolder");
+				System.out.println(" === Secao Clientes === ");
+				System.out.println("Qual o proximo passo: ");
+				System.out.println("1. Consultar Clientes");
+				System.out.println("2. Cadastrar Novo Cliente");
+				System.out.println("3. Voltar para menu principal");
+				choice = -1;
+				choice = sc.nextInt();
+				sc.nextLine();
+				switch (choice) {
+					case 1:
+						Reg.consultar_clientes();
+						menuPrincipal();
+						break;
+					case 2:
+						Reg.adicionar_cliente();
+						menuPrincipal();
+						break;
+					case 3:
+						menuPrincipal();
+						break;
+				}
 				break;
+
 			case 4:
+				System.out.println("====================================");
+				System.out.println("         SECAO CATEGORIAS");
+				System.out.println("====================================");
+
+				System.out.println("1. Consultar Categorias");
+				System.out.println("2. Criar Categoria");
+				System.out.println("3. Voltar para menu principal");
+				System.out.println("4. Sair");
+
+				System.out.print("\nEscolha: ");
+
+				choice = sc.nextInt();
+				sc.nextLine();
+
+				switch (choice) {
+
+					case 1:
+
+						Reg.consultar_categorias();
+
+						System.out.println("\nPressione ENTER para voltar...");
+						sc.nextLine();
+
+						menuPrincipal();
+						break;
+
+					case 2:
+
+						Reg.adicionar_Categoria();
+
+						System.out.println("\nPressione ENTER para voltar...");
+						sc.nextLine();
+
+						menuPrincipal();
+						break;
+
+					case 3:
+
+						menuPrincipal();
+						break;
+
+					case 4:
+
+						System.out.println("Saindo...");
+						break;
+
+					default:
+
+						System.out.println("Opcao invalida.");
+						menuPrincipal();
+						break;
+
+				}
+
+			case 5:
 				System.out.println("Sair");
 				break;
 
 		}
-
 		sc.close();
 
 	}
