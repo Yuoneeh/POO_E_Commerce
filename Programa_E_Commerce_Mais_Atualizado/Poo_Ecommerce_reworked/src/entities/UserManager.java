@@ -35,13 +35,13 @@ public class UserManager {
 
         if ((Objects.equals(username, admin_username)) && Objects.equals(password, admin_password)){
             System.out.println("Login bem sucedido como ADMIN.");
-            ProgramaECommerce.menuPrincipal();
+            ProgramaECommerce.menuVisualOpen();
         }
 
         for (User user : users) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                     System.out.println("Login bem sucedido.");
-                    ProgramaECommerce.menuPrincipal();
+                    ProgramaECommerce.menuVisualOpen();
             }
 
 
@@ -67,6 +67,9 @@ public class UserManager {
         System.out.println("Usuario não encontrado.");
     }
     public void start() {
+        System.out.println("=====================================================");
+        System.out.println(" BEM VINDO AO LOGIN DE E-COMMERCE MANAGEMENT SYSTEM");
+        System.out.println("=====================================================");
         while (true) {
             System.out.println("\n1. Cadastrar\n2. Login\n3. Esqueci a Senha\n4. Sair");
             int choice = Integer.parseInt(scanner.nextLine());

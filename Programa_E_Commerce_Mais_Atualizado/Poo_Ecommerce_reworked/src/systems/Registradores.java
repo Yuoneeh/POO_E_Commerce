@@ -169,6 +169,7 @@ public class Registradores { // Removido o 'extends Categoria'
         for (int i = 0; i < pdd_num; i++) {
 
             System.out.println("\nInsira o SKU do produto:");
+            consultar_estoque();
             String sku_comprado = sc.nextLine();
 
             Produto produto = produtoDao.buscarPorSku(sku_comprado);
