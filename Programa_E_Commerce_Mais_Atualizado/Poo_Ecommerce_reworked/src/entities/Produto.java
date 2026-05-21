@@ -9,6 +9,7 @@ public class Produto {
 	private Double preco; // No banco: pdt_preco
 	private String categoria;
 
+//Aqui instanciamos um objeto com o nome de produto, representa tudo vendido na loja.
 	public Produto(String sku, Integer quant, String nome, String descricao, String status, Double preco, String categoria) {
 		this.sku = sku;
 		this.quant = quant;

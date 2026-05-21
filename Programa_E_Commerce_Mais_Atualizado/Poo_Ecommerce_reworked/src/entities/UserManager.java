@@ -2,9 +2,13 @@ package entities;
 
 import java.util.*;
 import application.ProgramaECommerce;
+import entities.AdminUser;
 
 public class UserManager {
     public static boolean acessoAutorizado;
+    private static String admin_username;
+    private static String admin_password;
+
     private List<User> users = new ArrayList<>();
     private Scanner scanner = new Scanner(System.in);
     public void registrar() {
@@ -22,20 +26,30 @@ public class UserManager {
         System.out.println("Registro Completo.");
     }
     public void login() {
-        System.out.print("Enter username: ");
+        admin_username = "admin";
+        admin_password = "1234";
+        System.out.print("Insira Usuario: ");
         String username = scanner.nextLine();
-        System.out.print("Enter password: ");
+        System.out.print("Insira a Senha: ");
         String password = scanner.nextLine();
+
+        if ((Objects.equals(username, admin_username)) && Objects.equals(password, admin_password)){
+            System.out.println("Login bem sucedido como ADMIN.");
+            ProgramaECommerce.menuPrincipal();
+        }
+
         for (User user : users) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                System.out.println("Login successful.");
-                ProgramaECommerce.menuPrincipal();
+                    System.out.println("Login bem sucedido.");
+                    ProgramaECommerce.menuPrincipal();
             }
+
+
         }
-        System.out.println("Login failed. Incorrect credentials.");
+        System.out.println("Login falhou. Credenciais incorretas.");
     }
     public void esqueciSenha() {
-        System.out.print("Enter your username: ");
+        System.out.print("Insira seu usuario: ");
         String username = scanner.nextLine();
         for (User user : users) {
             if (user.getUsername().equals(username)) {

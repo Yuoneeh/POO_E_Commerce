@@ -59,6 +59,9 @@ public class ProgramaECommerce {
 					case 3:
 						menuPrincipal();
 						break;
+					default:
+						System.out.println(" Opcao invalida, inserir numero de 1-4 ");
+						menuPrincipal();
 				}
 				break;
 
@@ -85,6 +88,9 @@ public class ProgramaECommerce {
 					case 3:
 						menuPrincipal();
 						break;
+					default:
+						System.out.println(" Opcao invalida, inserir numero de 1-3 ");
+						menuPrincipal();
 				}
 				break;
 			case 3:
@@ -108,6 +114,9 @@ public class ProgramaECommerce {
 					case 3:
 						menuPrincipal();
 						break;
+					default:
+					System.out.println(" Opcao invalida, inserir numero de 1-3 ");
+					menuPrincipal();
 				}
 				break;
 
