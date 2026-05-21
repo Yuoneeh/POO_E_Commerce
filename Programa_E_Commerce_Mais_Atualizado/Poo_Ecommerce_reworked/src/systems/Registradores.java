@@ -167,10 +167,11 @@ public class Registradores { // Removido o 'extends Categoria'
         double valorTotal = 0;
 
         List<String> skus = new java.util.ArrayList<>();
+        List<Integer> quantidades = new java.util.ArrayList<>();
 
         for (int i = 0; i < pdd_num; i++) {
 
-            System.out.println("Insira o SKU do produto:");
+            System.out.println("\nInsira o SKU do produto:");
             String sku_comprado = sc.nextLine();
 
             Produto produto = produtoDao.buscarPorSku(sku_comprado);
@@ -182,16 +183,30 @@ public class Registradores { // Removido o 'extends Categoria'
                 continue;
             }
 
-            valorTotal += produto.getPreco();
+            System.out.println("Produto encontrado: " + produto.getNome());
+            System.out.println("Preço unitário: R$" + String.format("%.2f", produto.getPreco()));
+
+            System.out.println("Quantidade desejada:");
+            int quantidadeComprada = sc.nextInt();
+            sc.nextLine();
+
+            int estoqueAtual = produtoDao.verificarEstoque(sku_comprado);
+
+            if (quantidadeComprada > estoqueAtual) {
+
+                System.out.println("Estoque insuficiente!");
+                System.out.println("Disponível: " + estoqueAtual);
+
+                i--;
+                continue;
+            }
+
+            valorTotal += produto.getPreco() * quantidadeComprada;
 
             skus.add(sku_comprado);
+            quantidades.add(quantidadeComprada);
 
-            System.out.println(
-                    "Produto encontrado: "
-                            + produto.getNome()
-                            + " | Preço: R$"
-                            + String.format("%.2f", produto.getPreco())
-            );
+            System.out.println("Produto adicionado ao pedido!");
         }
 
         Pedidos ped = new Pedidos(
@@ -204,16 +219,26 @@ public class Registradores { // Removido o 'extends Categoria'
 
         pedidoDao.inserirPedido(ped);
 
-        for (String sku : skus) {
+        for (int i = 0; i < skus.size(); i++) {
+
+            String sku = skus.get(i);
+            int quantidade = quantidades.get(i);
 
             pedidoDao.inserirProvidenciar(
                     ped.getPdd_cod(),
                     sku
             );
+
+            produtoDao.baixarEstoque(
+                    sku,
+                    quantidade
+            );
         }
 
-        System.out.println("\nPedido criado com sucesso!");
-        System.out.println("Valor total calculado: R$" + String.format("%.2f", valorTotal));
+        System.out.println("\n=================================");
+        System.out.println("PEDIDO CRIADO COM SUCESSO!");
+        System.out.println("Valor total: R$" + String.format("%.2f", valorTotal));
+        System.out.println("=================================\n");
     }
 
     public void consultar_pedido() {
@@ -310,6 +335,28 @@ public class Registradores { // Removido o 'extends Categoria'
         }
     }
 
+    public void adicionar_fornecedor() {
+        System.out.println("\n=== CADASTRO DE FORNECEDOR ===");
+        System.out.println("Insira o CNPJ do fornecedor (Apenas números, 14 dígitos): ");
+        String cnpj = sc.nextLine();
+
+        System.out.println("Insira o Nome da empresa: ");
+        String nome = sc.nextLine();
+
+        System.out.println("Insira o Telefone: ");
+        String telefone = sc.nextLine();
+
+        System.out.println("Insira o E-mail: ");
+        String email = sc.nextLine();
+
+        entities.Fornecedor novoFornecedor = new entities.Fornecedor(cnpj, nome, telefone, email);
+
+        dao.FornecedorDAO fornecedorDao = new dao.FornecedorDAO();
+        fornecedorDao.inserir(novoFornecedor);
+
+        System.out.println("Fornecedor " + novoFornecedor.getNome() + " cadastrado com sucesso no banco!\n");
+    }
+
     public void consultar_categorias() {
         System.out.println("\n=== CONSULTANDO CATEGORIAS ===");
 
@@ -334,7 +381,25 @@ public class Registradores { // Removido o 'extends Categoria'
         System.out.println("===========================\n");
     }
 
+    public void consultar_fornecedores() {
+        System.out.println("\n=== CONSULTANDO FORNECEDORES ===");
+        dao.FornecedorDAO fornecedorDao = new dao.FornecedorDAO();
+        List<entities.Fornecedor> fornecedores = fornecedorDao.listarTodos();
 
+        if (fornecedores.isEmpty()) {
+            System.out.println("Nenhum fornecedor cadastrado no sistema.");
+        } else {
+            for (entities.Fornecedor f : fornecedores) {
+                System.out.println(
+                        "CNPJ: " + f.getCnpj() +
+                                " | Nome: " + f.getNome() +
+                                " | Telefone: " + f.getTelefone() +
+                                " | E-mail: " + f.getEmail()
+                );
+            }
+        }
+        System.out.println("=================================\n");
+    }
 
 }
 

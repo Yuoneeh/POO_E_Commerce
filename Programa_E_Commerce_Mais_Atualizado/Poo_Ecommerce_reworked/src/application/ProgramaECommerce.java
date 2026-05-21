@@ -27,7 +27,8 @@ public class ProgramaECommerce {
 		System.out.println("2. Pedidos");
 		System.out.println("3. Clientes");
 		System.out.println("4. Categorias");
-		System.out.println("5. Sair");
+		System.out.println("5. Fornecedores");
+		System.out.println("6. Sair");
 
 		System.out.print("INSIRA A OPCAO DESEJADA: ");
 
@@ -166,9 +167,52 @@ public class ProgramaECommerce {
 				}
 
 			case 5:
+				System.out.println(" === Secao Fornecedores === ");
+				System.out.println("Qual o proximo passo: ");
+				System.out.println("1. Consultar Fornecedores");
+				System.out.println("2. Cadastrar Novo Fornecedor");
+				System.out.println("3. Voltar para menu principal");
+				System.out.println("4. Sair");
+
+				choice = -1;
+				choice = sc.nextInt();
+				sc.nextLine();
+
+				switch (choice) {
+					case 1:
+						Reg.consultar_fornecedores(); // Alterado para Reg maiúsculo
+						System.out.println("\nPressione ENTER para voltar...");
+						sc.nextLine();
+						menuPrincipal();
+						break;
+					case 2:
+						Reg.adicionar_fornecedor(); // Alterado para Reg maiúsculo
+						System.out.println("\nPressione ENTER para voltar...");
+						sc.nextLine();
+						menuPrincipal();
+						break;
+					case 3:
+						menuPrincipal();
+						break;
+					case 4:
+						System.out.println("Saindo...");
+						break;
+					default:
+						System.out.println("Opcao invalida.");
+						menuPrincipal();
+						break;
+				}
+				break;
+
+
+			case 6:
 				System.out.println("Sair");
 				break;
 
+			default:
+				System.out.println("Opcao invalida."); //
+				menuPrincipal(); //
+				break;
 		}
 		sc.close();
 

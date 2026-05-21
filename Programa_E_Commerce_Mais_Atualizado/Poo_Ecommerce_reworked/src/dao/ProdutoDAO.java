@@ -112,4 +112,45 @@ public class ProdutoDAO {
             throw new RuntimeException(e);
         }
     }
+
+    // Método para consultar a quantidade atual de um produto no banco
+    public int verificarEstoque(String pdt_sku) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            conn = DB.getConnection();
+            st = conn.prepareStatement("SELECT pdt_quant FROM produto WHERE pdt_sku = ?");
+            st.setString(1, pdt_sku);
+            rs = st.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("pdt_quant");
+            }
+            return 0; // Retorna 0 se o produto não for encontrado
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao verificar estoque: " + e.getMessage());
+        } finally {
+            if (rs != null) try { rs.close(); } catch (SQLException e) { throw new RuntimeException(e.getMessage()); }
+            if (st != null) try { st.close(); } catch (SQLException e) { throw new RuntimeException(e.getMessage()); }
+        }
+    }
+
+    // Método para subtrair a quantidade comprada do estoque atual
+    public void baixarEstoque(String pdt_sku, int quantidadeComprada) {
+        Connection conn = null;
+        PreparedStatement st = null;
+        try {
+            conn = DB.getConnection();
+            // Atualiza a tabela diminuindo a quantidade
+            st = conn.prepareStatement("UPDATE produto SET pdt_quant = pdt_quant - ? WHERE pdt_sku = ?");
+            st.setInt(1, quantidadeComprada);
+            st.setString(2, pdt_sku);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao baixar estoque: " + e.getMessage());
+        } finally {
+            if (st != null) try { st.close(); } catch (SQLException e) { throw new RuntimeException(e.getMessage()); }
+        }
+    }
 }
