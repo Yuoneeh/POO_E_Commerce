@@ -155,9 +155,6 @@ public class Registradores { // Removido o 'extends Categoria'
         System.out.println("Insira o CPF do cliente: ");
         String cli_cpf = sc.nextLine();
 
-        System.out.println("Insira o status do pedido (Ex: AGUARDANDO, ENVIADO, ENTREGUE): ");
-        String pdd_status = sc.nextLine();
-
         java.time.LocalDate pdd_data = java.time.LocalDate.now();
 
         System.out.println("Quantos produtos diferentes este pedido terá?");
@@ -213,7 +210,6 @@ public class Registradores { // Removido o 'extends Categoria'
                 pdd_cod,
                 pdd_data,
                 valorTotal,
-                pdd_status,
                 cli_cpf
         );
 
@@ -226,7 +222,8 @@ public class Registradores { // Removido o 'extends Categoria'
 
             pedidoDao.inserirProvidenciar(
                     ped.getPdd_cod(),
-                    sku
+                    sku,
+                    quantidade
             );
 
             produtoDao.baixarEstoque(
@@ -255,7 +252,6 @@ public class Registradores { // Removido o 'extends Categoria'
                         "ID: " + ped.getPdd_cod() +
                                 " | Data: " + ped.getPdd_data() +
                                 " | Valor: R$" + String.format("%.2f", ped.getPdd_valor()) +
-                                " | Status: " + ped.getPdd_status() +
                                 " | CPF Cliente: " + ped.getCli_cpf()
                 );
             }

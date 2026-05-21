@@ -17,14 +17,14 @@ public class PedidoDAO {
         PreparedStatement st = null;
         try {
             conn = DB.getConnection();
+            // Correção 1: Deixamos apenas 4 pontos de interrogação no VALUES
             st = conn.prepareStatement(
-                    "INSERT INTO pedido (pdd_id, pdd_data, pdd_valor, pdd_status, cli_cpf) VALUES (?, ?, ?, ?, ?)"
+                    "INSERT INTO pedido (pdd_id, pdd_data, pdd_valor, cli_cpf) VALUES (?, ?, ?, ?)"
             );
             st.setString(1, pedido.getPdd_cod());
             st.setDate(2, java.sql.Date.valueOf(pedido.getPdd_data()));
             st.setDouble(3, pedido.getPdd_valor());
-            st.setString(4, pedido.getPdd_status());
-            st.setString(5, pedido.getCli_cpf());
+            st.setString(4, pedido.getCli_cpf());
             st.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao inserir o pedido: " + e.getMessage());
@@ -34,16 +34,18 @@ public class PedidoDAO {
     }
 
     // Método 2: Insere na tabela 'providenciar' amarrando o Pedido ao Produto
-    public void inserirProvidenciar(String pdd_id, String pdt_sku) {
+    // Método 2: Insere na tabela 'providenciar' amarrando o Pedido ao Produto com a Quantidade
+    public void inserirProvidenciar(String pdd_id, String pdt_sku, int quantidade) {
         Connection conn = null;
         PreparedStatement st = null;
 
         try {
             conn = DB.getConnection();
-            st = conn.prepareStatement("INSERT INTO providenciar (pdd_id, pdt_sku) VALUES (?, ?)");
+            st = conn.prepareStatement("INSERT INTO providenciar (pdd_id, pdt_sku, prov_quant) VALUES (?, ?, ?)");
 
             st.setString(1, pdd_id);
             st.setString(2, pdt_sku);
+            st.setInt(3, quantidade);
 
             st.executeUpdate();
 
@@ -74,7 +76,6 @@ public class PedidoDAO {
                         rs.getString("pdd_id"),
                         rs.getDate("pdd_data").toLocalDate(),
                         rs.getDouble("pdd_valor"),
-                        rs.getString("pdd_status"),
                         rs.getString("cli_cpf")
                 );
                 lista.add(ped);
