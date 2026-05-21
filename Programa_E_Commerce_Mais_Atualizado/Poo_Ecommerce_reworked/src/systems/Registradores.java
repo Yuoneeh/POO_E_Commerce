@@ -1,9 +1,12 @@
 package systems;
 
 import java.util.Scanner;
+
+import application.ProgramaECommerce;
 import entities.Categorias;
 import entities.Produto;
 import entities.Pedidos;
+import entities.Cliente;
 import java.util.List;
 
 public class Registradores { // Removido o 'extends Categoria'
@@ -138,6 +141,87 @@ public class Registradores { // Removido o 'extends Categoria'
             }
         }
         System.out.println("===========================\n");
+    }
+
+    public void atualizar_produto(){
+        dao.ProdutoDAO produtoDao = new dao.ProdutoDAO();
+        dao.ProdutoDAO dao = new dao.ProdutoDAO();
+        System.out.println("Atualizando Produtos");
+        List<Produto> produtos = dao.listarTodos();
+
+        // Verifica se a lista veio vazia
+        if (produtos.isEmpty()) {
+            System.out.println("O estoque está vazio no momento.");
+        } else {
+            // Laço For-Each: "Para cada 'Produto p' dentro da lista 'produtos'..."
+            for (Produto p : produtos) {
+                System.out.println(
+                        "SKU: " + p.getSku() +
+                                " | Nome: " + p.getNome() +
+                                " | Desc.: " + p.getDescricao() +
+                                " | Qtd: " + p.getQuant() +
+                                " | Preço: R$" + String.format("%.2f", p.getPreco()) +
+                                " | Categoria: " + String.format(p.getCategoria())
+                );
+            }
+        }
+        System.out.println("===========================\n");
+        System.out.println("\nInsira o SKU do  a ser atualizado:");
+        consultar_estoque();
+        String sku_atualizar = sc.nextLine();
+        System.out.println("===========================\n");
+        System.out.println("\nInforme o parametro de PRODUTO que deseja atualizar:");
+        System.out.println("\n1-Nome\n2- Descrição\n3- Preço\n4- Quantidade\n5- Cancelar\n");
+        Integer opcao_menu = sc.nextInt();
+        switch (opcao_menu){
+            case 1:
+                
+                System.out.println("\nInsira o NOVO NOME do produto:");
+            case 2:
+                System.out.println("\nInsira a NOVA DESCRIÇÃO do produto:");
+            case 3:
+                System.out.println("\nInsira o NOVO PREÇO do produto:");
+            case 4:
+                System.out.println("\nInsira a NOVA QUANTIDADE do produto:");
+            case 5:
+                System.out.println("\nVoltando ao menu principal):");
+                ProgramaECommerce.menuPrincipal();
+        }
+
+       // Produto produto = produtoDao.buscarPorSku(sku_atualizar);
+
+    }
+
+    public void apagar_produto(){
+        dao.ProdutoDAO produtoDao = new dao.ProdutoDAO();
+        dao.ProdutoDAO dao = new dao.ProdutoDAO();
+
+        List<Produto> produtos = dao.listarTodos();
+
+        // Verifica se a lista veio vazia
+        if (produtos.isEmpty()) {
+            System.out.println("O estoque está vazio no momento.");
+        } else {
+            // Laço For-Each: "Para cada 'Produto p' dentro da lista 'produtos'..."
+            for (Produto p : produtos) {
+                System.out.println(
+                        "SKU: " + p.getSku() +
+                                " | Nome: " + p.getNome() +
+                                " | Desc.: " + p.getDescricao() +
+                                " | Qtd: " + p.getQuant() +
+                                " | Preço: R$" + String.format("%.2f", p.getPreco()) +
+                                " | Categoria: " + String.format(p.getCategoria())
+                );
+            }
+        }
+        System.out.println("===========================\n");
+        System.out.println("\nInsira o SKU do produto a ser deletado:");
+        String sku_delete = sc.nextLine();
+
+        Produto produto = produtoDao.deletar_produto(sku_delete);
+
+
+
     }
 
     public void adicionar_pedido() {

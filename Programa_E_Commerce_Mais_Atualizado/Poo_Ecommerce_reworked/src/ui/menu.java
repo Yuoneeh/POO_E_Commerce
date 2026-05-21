@@ -21,8 +21,10 @@ public class menu {
         System.out.println("Qual o proximo passo: ");
         System.out.println("1. Consultar Produtos");
         System.out.println("2. Adicionar Produto ao Estoque");
-        System.out.println("3. Voltar para menu principal");
-        System.out.println("4. Sair");
+        System.out.println("3. Apagar Produto do Sistema");
+        System.out.println("4. Atualizar Produtos");
+        System.out.println("5. Voltar para menu principal");
+        System.out.println("6. Sair");
 
         System.out.print("INSIRA A OPÇÃO DESEJADA: ");
     }

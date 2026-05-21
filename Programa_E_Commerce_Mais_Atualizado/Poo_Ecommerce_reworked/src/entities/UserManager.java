@@ -69,6 +69,9 @@ public class UserManager {
     public void start() {
         System.out.println("=====================================================");
         System.out.println(" BEM VINDO AO LOGIN DE E-COMMERCE MANAGEMENT SYSTEM");
+        System.out.println("============================================");
+        System.out.println("Para acessar como admin:");
+        System.out.println("insira usuário: admin Senha:1234");
         System.out.println("=====================================================");
         while (true) {
             System.out.println("\n1. Cadastrar\n2. Login\n3. Esqueci a Senha\n4. Sair");

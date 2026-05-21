@@ -12,7 +12,7 @@ public class DB {
             try {
                 // Ajuste a URL, usuário e senha de acordo com o seu MySQL
                 String url = "jdbc:mysql://localhost:3306/teste";
-                conn = DriverManager.getConnection(url, "root", "root");
+                conn = DriverManager.getConnection(url, "root", "");
             } catch (SQLException e) {
                 throw new RuntimeException(e.getMessage());
             }

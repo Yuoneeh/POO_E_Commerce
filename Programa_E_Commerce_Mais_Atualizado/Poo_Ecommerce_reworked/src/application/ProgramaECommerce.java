@@ -53,6 +53,14 @@ public class ProgramaECommerce {
 						menuPrincipal();
 						break;
 					case 3:
+						Reg.apagar_produto();
+						menuPrincipal();
+						break;
+					case 4:
+						Reg.atualizar_produto();
+						menuPrincipal();
+						break;
+					case 5:
 						menuPrincipal();
 						break;
 					default:
@@ -204,6 +212,7 @@ public class ProgramaECommerce {
 				break;
 			case 8:
 				System.out.println("Sair");
+				System.exit(0);
 				break;
 
 			default:

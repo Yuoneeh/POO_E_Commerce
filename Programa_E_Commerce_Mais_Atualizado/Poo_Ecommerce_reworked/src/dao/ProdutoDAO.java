@@ -127,6 +127,55 @@ public class ProdutoDAO {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Apaga um produto com base no seu SKU
+     * * @param sku Código identificador único do Produto.
+     * @return O objeto Produto correspondente, ou 'null' se não for encontrado.
+     */
+    public Produto deletar_produto(String sku) {
+
+        Connection conn = null;
+        PreparedStatement st = null;
+
+        try {
+            conn = DB.getConnection();
+            st = conn.prepareStatement(
+                    "DELETE FROM produto WHERE pdt_sku = ?");
+
+
+            st.setString(1, sku);
+            st.executeUpdate();
+
+
+            return null;
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public Produto atualizar_produto(String sku) {
+
+        Connection conn = null;
+        PreparedStatement st = null;
+
+        try {
+            conn = DB.getConnection();
+            st = conn.prepareStatement(
+                    "DELETE FROM produto WHERE pdt_sku = ?");
+
+
+            st.setString(1, sku);
+            st.executeUpdate();
+
+
+            return null;
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * Valida a quantidade atual de um item no estoque.
