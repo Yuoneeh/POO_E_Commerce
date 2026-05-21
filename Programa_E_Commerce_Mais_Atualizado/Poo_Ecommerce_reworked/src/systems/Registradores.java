@@ -173,19 +173,33 @@ public class Registradores { // Removido o 'extends Categoria'
         System.out.println("\nInforme o parametro de PRODUTO que deseja atualizar:");
         System.out.println("\n1-Nome\n2- Descrição\n3- Preço\n4- Quantidade\n5- Cancelar\n");
         Integer opcao_menu = sc.nextInt();
+        sc.nextLine();
         switch (opcao_menu){
             case 1:
-                
                 System.out.println("\nInsira o NOVO NOME do produto:");
+                String sku_new_name = sc.nextLine();
+                System.out.print(sku_new_name);
+                produtoDao.atualizar_produto(sku_atualizar, 1, sku_new_name,"",0.0, 0 );
+                break;
             case 2:
                 System.out.println("\nInsira a NOVA DESCRIÇÃO do produto:");
+                String sku_new_desc = sc.nextLine();
+                dao.atualizar_produto(sku_atualizar, 2, "",sku_new_desc, 0.0, 0);
+                break;
             case 3:
                 System.out.println("\nInsira o NOVO PREÇO do produto:");
+                Double sku_new_price = sc.nextDouble();
+                dao.atualizar_produto(sku_atualizar, 3, "","", sku_new_price, 0);
+                break;
             case 4:
                 System.out.println("\nInsira a NOVA QUANTIDADE do produto:");
+                Integer sku_new_quant = sc.nextInt();
+                dao.atualizar_produto(sku_atualizar, 4, "","", 0.0, sku_new_quant);
+                break;
             case 5:
                 System.out.println("\nVoltando ao menu principal):");
                 ProgramaECommerce.menuPrincipal();
+                break;
         }
 
        // Produto produto = produtoDao.buscarPorSku(sku_atualizar);

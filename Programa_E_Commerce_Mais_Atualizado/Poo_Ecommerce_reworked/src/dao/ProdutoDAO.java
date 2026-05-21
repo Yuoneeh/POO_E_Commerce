@@ -154,27 +154,92 @@ public class ProdutoDAO {
             throw new RuntimeException(e);
         }
     }
-    public Produto atualizar_produto(String sku) {
+    public Produto atualizar_produto(String sku, Integer parameter, String new_name, String new_desc, Double new_preco, Integer new_quant) {
 
         Connection conn = null;
         PreparedStatement st = null;
+        switch (parameter) {
+            case 1:
+                try {
+                    conn = DB.getConnection();
+                    st = conn.prepareStatement(
+                            "UPDATE produto " +
+                                    "SET pdt_nome = ? " +
+                                    "WHERE pdt_sku = ?");
 
-        try {
-            conn = DB.getConnection();
-            st = conn.prepareStatement(
-                    "DELETE FROM produto WHERE pdt_sku = ?");
+                    st.setString(1, new_name);
+                    st.setString(2, sku);
+                    st.executeUpdate();
 
 
-            st.setString(1, sku);
-            st.executeUpdate();
+                    return null;
 
 
-            return null;
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            case 2:
+                try {
+                    conn = DB.getConnection();
+                    st = conn.prepareStatement(
+                            "UPDATE produto " +
+                                    "SET pdt_desc = ? " +
+                                    "WHERE pdt_sku = ?");
+
+                    st.setString(1, new_desc);
+                    st.setString(2, sku);
+                    st.executeUpdate();
 
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+                    return null;
+
+
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            case 3:
+                try {
+                conn = DB.getConnection();
+                st = conn.prepareStatement(
+                        "UPDATE produto " +
+                                "SET pdt_preco = ? " +
+                                "WHERE pdt_sku = ?");
+
+                st.setDouble(1, new_preco);
+                st.setString(2, sku);
+                st.executeUpdate();
+
+
+                return null;
+
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            case 4:
+                try {
+                    conn = DB.getConnection();
+                    st = conn.prepareStatement(
+                            "UPDATE produto " +
+                                    "SET pdt_quant = ? " +
+                                    "WHERE pdt_sku = ?");
+
+                    st.setInt(1, new_quant);
+                    st.setString(2, sku);
+                    st.executeUpdate();
+
+
+                    return null;
+
+
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            default:
+                System.out.println("\nDeu pau ai ein");
         }
+        return null;
+
     }
 
     /**

@@ -90,7 +90,7 @@ public class ProgramaECommerce {
 						menuPrincipal();
 						break;
 					default:
-						System.out.println(" Opcao invalida, inserir numero de 1-3 ");
+						System.out.println(" Opção invalida, inserir numero de 1-3 ");
 						menuPrincipal();
 				}
 				break;
