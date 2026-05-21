@@ -17,14 +17,12 @@ public class Cliente {
         this.dataCadastro = dataCadastro;
     }
 
-    // Getters
     public String getCpf() { return cpf; }
     public String getNome() { return nome; }
     public String getEmail() { return email; }
     public String getTelefone() { return telefone; }
     public LocalDate getDataCadastro() { return dataCadastro; }
 
-    // Setters
     public void setCpf(String cpf) { this.cpf = cpf; }
     public void setNome(String nome) { this.nome = nome; }
     public void setEmail(String email) { this.email = email; }

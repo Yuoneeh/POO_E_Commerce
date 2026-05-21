@@ -10,7 +10,6 @@ public class Registradores { // Removido o 'extends Categoria'
 
     Scanner sc = new Scanner(System.in);
 
-    // Produto Vars
     public String new_SKU;
     public String new_Nome;
     public Integer new_quant;
@@ -131,7 +130,7 @@ public class Registradores { // Removido o 'extends Categoria'
                 System.out.println(
                         "SKU: " + p.getSku() +
                                 " | Nome: " + p.getNome() +
-                                " | Desc.: " + p.getDescricao() + // NOVO: Imprimindo a descrição
+                                " | Desc.: " + p.getDescricao() +
                                 " | Qtd: " + p.getQuant() +
                                 " | Preço: R$" + String.format("%.2f", p.getPreco()) +
                                 " | Categoria: " + String.format(p.getCategoria())
@@ -141,7 +140,6 @@ public class Registradores { // Removido o 'extends Categoria'
         System.out.println("===========================\n");
     }
 
-    // O FIM DO CHURRASCAMENTO CEREBRAL ESTÁ AQUI
     public void adicionar_pedido() {
 
         dao.PedidoDAO pedidoDao = new dao.PedidoDAO();

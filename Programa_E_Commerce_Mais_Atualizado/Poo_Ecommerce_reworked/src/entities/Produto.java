@@ -1,15 +1,14 @@
 package entities;
 
 public class Produto {
-	private String sku; // No banco: pdt_sku (É a Chave Primária!)
-	private Integer quant; // No banco: pdt_quant
-	private String nome; // No banco: pdt_nome
-	private String descricao; //pdt_desc
-	private String status; // No banco: pdt_status (Adicionamos este)
-	private Double preco; // No banco: pdt_preco
+	private String sku;
+	private Integer quant;
+	private String nome;
+	private String descricao;
+	private String status;
+	private Double preco;
 	private String categoria;
 
-//Aqui instanciamos um objeto com o nome de produto, representa tudo vendido na loja.
 	public Produto(String sku, Integer quant, String nome, String descricao, String status, Double preco, String categoria) {
 		this.sku = sku;
 		this.quant = quant;
@@ -20,7 +19,6 @@ public class Produto {
 		this.categoria = categoria;
 	}
 
-	// Mantenha os seus métodos Getters e Setters aqui...
 	public String getSku() {
 		return sku;
 	}

@@ -6,7 +6,7 @@ public class Pedidos {
 	private String pdd_cod;
 	private LocalDate pdd_data;
 	private Double pdd_valor;
-	private String cli_cpf;   // No banco: pdd_nf
+	private String cli_cpf;
 
 	public Pedidos(String pdd_cod, LocalDate pdd_data, Double pdd_valor, String cli_cpf) {
 		this.pdd_cod = pdd_cod;
@@ -15,7 +15,6 @@ public class Pedidos {
 		this.cli_cpf = cli_cpf;
 	}
 
-	// Getters e Setters...
 	public String getPdd_cod()      { return pdd_cod; }
 	public LocalDate getPdd_data()  { return pdd_data; }
 	public Double getPdd_valor()    { return pdd_valor; }

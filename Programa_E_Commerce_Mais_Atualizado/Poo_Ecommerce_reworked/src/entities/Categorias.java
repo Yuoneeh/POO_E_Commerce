@@ -1,15 +1,13 @@
 package entities;
 
 public class Categorias {
-    private String cat_nome; // No banco: pdd_id
-    private String cat_desc; // No banco: pdd_nf
+    private String cat_nome;
+    private String cat_desc;
 
     public Categorias(String cat_nome, String cat_desc) {
         this.cat_nome = cat_nome;
         this.cat_desc = cat_desc;
     }
-
-    // Getters e Setters...
 
     public String getCat_nome() {
         return cat_nome;

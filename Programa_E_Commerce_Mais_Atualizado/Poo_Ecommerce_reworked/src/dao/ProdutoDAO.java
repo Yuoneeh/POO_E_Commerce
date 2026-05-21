@@ -10,8 +10,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe DAO de gerenciamento da entidade Produto. Visando manter a persistência dos
+ * dados relacionados a Produto
+ */
 public class ProdutoDAO {
 
+    /**
+     * Registra um novo produto no catálogo (estoque).
+     * * @param produto Objeto Produto com todos os seus atributos (SKU, preço, quantidades, etc).
+     */
     public void inserir(Produto produto) {
         Connection conn = null;
         PreparedStatement st = null;
@@ -38,6 +46,10 @@ public class ProdutoDAO {
         }
     }
 
+    /**
+     * Busca todos os produtos do estoque.
+     * * @return Lista contendo todos os Produtos disponíveis.
+     */
     public List<Produto> listarTodos() {
         Connection conn = null;
         PreparedStatement st = null;
@@ -76,6 +88,11 @@ public class ProdutoDAO {
         }
     }
 
+    /**
+     * Retorna os dados de um produto específico filtrando pelo seu código único.
+     * * @param sku Código identificador único do Produto.
+     * @return O objeto Produto correspondente, ou 'null' se não for encontrado.
+     */
     public Produto buscarPorSku(String sku) {
 
         Connection conn = null;
@@ -84,15 +101,13 @@ public class ProdutoDAO {
 
         try {
             conn = DB.getConnection();
-
             st = conn.prepareStatement(
                     "SELECT * FROM produto WHERE pdt_sku = ?"
             );
-
             st.setString(1, sku);
-
             rs = st.executeQuery();
 
+            // Como SKU é Primary Key, espera-se no máximo 1 resultado (por isso usa 'if' em vez de 'while')
             if (rs.next()) {
 
                 return new Produto(
@@ -113,7 +128,11 @@ public class ProdutoDAO {
         }
     }
 
-    // Método para consultar a quantidade atual de um produto no banco
+    /**
+     * Valida a quantidade atual de um item no estoque.
+     * * @param pdt_sku Código identificador do produto.
+     * @return Número inteiro representando a quantidade disponível.
+     */
     public int verificarEstoque(String pdt_sku) {
         Connection conn = null;
         PreparedStatement st = null;
@@ -125,9 +144,10 @@ public class ProdutoDAO {
             rs = st.executeQuery();
 
             if (rs.next()) {
+                // Retorna diretamente a coluna de quantidade caso o produto seja localizado
                 return rs.getInt("pdt_quant");
             }
-            return 0; // Retorna 0 se o produto não for encontrado
+            return 0; // Retorna 0 se o produto não existir
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao verificar estoque: " + e.getMessage());
         } finally {
@@ -136,13 +156,17 @@ public class ProdutoDAO {
         }
     }
 
-    // Método para subtrair a quantidade comprada do estoque atual
+    /**
+     * Desconta uma certa quantidade do estoque de um produto no momento de uma compra.
+     * * @param pdt_sku Código do produto vendido.
+     * @param quantidadeComprada Quantidade a ser debitada do estoque atual.
+     */
     public void baixarEstoque(String pdt_sku, int quantidadeComprada) {
         Connection conn = null;
         PreparedStatement st = null;
         try {
             conn = DB.getConnection();
-            // Atualiza a tabela diminuindo a quantidade
+            // O UPDATE diminui matematicamente o estoque no próprio banco (pdt_quant - ?)
             st = conn.prepareStatement("UPDATE produto SET pdt_quant = pdt_quant - ? WHERE pdt_sku = ?");
             st.setInt(1, quantidadeComprada);
             st.setString(2, pdt_sku);

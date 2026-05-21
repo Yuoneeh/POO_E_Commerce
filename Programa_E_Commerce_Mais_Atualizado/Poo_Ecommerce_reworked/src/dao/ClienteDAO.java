@@ -10,8 +10,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe DAO responsável pelo gerenciamento dos dados da entidade Cliente
+ * no banco de dados.
+ */
 public class ClienteDAO {
 
+    /**
+     * Insere um novo cliente no banco de dados.
+     * * @param cliente Objeto Cliente contendo os dados (CPF, nome, e-mail, telefone e data).
+     */
     public void inserir(Cliente cliente) {
         Connection conn = null;
         PreparedStatement st = null;
@@ -27,7 +35,7 @@ public class ClienteDAO {
             st.setString(2, cliente.getNome());
             st.setString(3, cliente.getEmail());
             st.setString(4, cliente.getTelefone());
-            // Conversão crucial: LocalDate para java.sql.Date
+            // Converte o LocalDate do Java para java.sql.Date antes de salvar no banco
             st.setDate(5, java.sql.Date.valueOf(cliente.getDataCadastro()));
 
             st.executeUpdate();
@@ -45,6 +53,10 @@ public class ClienteDAO {
         }
     }
 
+    /**
+     * Recupera uma lista com todos os clientes cadastrados.
+     * * @return Lista contendo os objetos Cliente registrados no banco.
+     */
     public List<Cliente> listarTodos() {
         Connection conn = null;
         PreparedStatement st = null;
@@ -56,14 +68,14 @@ public class ClienteDAO {
             st = conn.prepareStatement("SELECT * FROM cliente");
             rs = st.executeQuery();
 
+            // Mapeamento objeto-relacional: Converte cada linha do ResultSet em um objeto Cliente
             while (rs.next()) {
                 Cliente cliente = new Cliente(
                         rs.getString("cli_cpf"),
                         rs.getString("cli_nome"),
                         rs.getString("cli_email"),
                         rs.getString("cli_telefone"),
-                        // Conversão crucial: java.sql.Date de volta para LocalDate
-                        rs.getDate("cli_dat_cad").toLocalDate()
+                        rs.getDate("cli_dat_cad").toLocalDate() // Converte de java.sql.Date de volta para LocalDate
                 );
                 lista.add(cliente);
             }

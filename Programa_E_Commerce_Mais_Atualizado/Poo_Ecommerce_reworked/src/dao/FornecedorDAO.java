@@ -9,13 +9,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe DAO para realizar as operações de persistência relacionadas
+ * aos Fornecedores do E-Commerce.
+ */
 public class FornecedorDAO {
 
+    /**
+     * Cadastra um novo fornecedor.
+     * * @param fornecedor Objeto Fornecedor a ser inserido.
+     */
     public void inserir(Fornecedor fornecedor) {
         Connection conn = null;
         PreparedStatement st = null;
         try {
             conn = DB.getConnection();
+
+            // Script DML para inserção dos dados principais do fornecedor
             st = conn.prepareStatement(
                     "INSERT INTO fornecedor (frn_cnpj, frn_nome, frn_telefone, frn_email) " +
                             "VALUES (?, ?, ?, ?)"
@@ -35,6 +45,10 @@ public class FornecedorDAO {
         }
     }
 
+    /**
+     * Consulta todos os fornecedores no banco.
+     * * @return Lista de objetos Fornecedor.
+     */
     public List<Fornecedor> listarTodos() {
         Connection conn = null;
         PreparedStatement st = null;
